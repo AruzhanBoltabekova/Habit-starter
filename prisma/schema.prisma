@@ -1,0 +1,74 @@
+// A habit tracker app database schema
+// User creates personal habits to track
+
+// User authenticates with email and password
+// User can create multiple Habits
+// Category is an optional way to group habits (ENUM / Nullable)
+
+// Habits are daily routines configuration
+// Based on a start date, repeatings, and schedule (weekdays) we
+// expect the user check / uncheck action on today screen,
+// therefore a a record with today's date and the habit id is created / deleted
+
+// Habit score can be calculated as repeatings / related records count
+
+// Deleting a record will not delete the habit, only the record itself
+// Deleting a habit will delete all records associated with it
+// Deleting user will delete all his Habits and Records
+
+generator client {
+  previewFeatures = ["postgresqlExtensions"]
+  provider        = "prisma-client-js"
+}
+
+// Generate schema diagram
+generator erd {
+  provider = "prisma-erd-generator"
+  output   = "./../dbschema.svg"
+}
+
+// Generate fake data
+// generator custom_generator {
+//   provider = "prisma-generator-fake-data"
+//   output   = "./fake-data.ts"
+// }
+
+datasource db {
+  provider   = "postgresql"
+  url        = env("DATABASE_URL")
+  extensions = [citext, pgcrypto, intarray]
+}
+
+model User {
+  id       Int     @id @unique @default(autoincrement())
+  email    String  @unique @db.VarChar(255)
+  password String  @db.VarChar(255)
+  data     Json?   @db.JsonB // extra optional data
+  habits   Habit[]
+}
+
+model Habit {
+  id          Int       @id @unique @default(autoincrement())
+  name        String    @db.VarChar(32)
+  description String?   @db.VarChar(255)
+  data        Json?     @db.JsonB // extra optional data
+  start       DateTime  @default(now()) @db.Date // start date, format: YYYY-MM-DD
+  Category    Category? @map("category") // optional category
+  repeatings  Int       @db.SmallInt // expected total repeatings, step = 1 day
+  schedule    Boolean[] @default([true, true, true, true, false, false, false]) // 7 days of the week
+  User        User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId      Int
+  records     Record[]
+}
+
+model Record {
+  id      Int      @id @unique @default(autoincrement())
+  date    DateTime @default(now()) @db.Date // habit activity completion date, format: YYYY-MM-DD
+  Habit   Habit    @relation(fields: [habitId], references: [id], onDelete: Cascade)
+  habitId Int
+}
+
+enum Category {
+  HEALTH
+  CAREER
+}

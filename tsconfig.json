@@ -1,0 +1,27 @@
+{
+  "compilerOptions": {
+    "module": "nodenext",
+    "moduleResolution": "nodenext",
+    "paths": {
+      "@/*": ["./src/*"],
+      "@/json/*": ["./json/*"]
+    },
+    "resolveJsonModule": true,
+    "noEmit": true,
+    "esModuleInterop": true,
+    "forceConsistentCasingInFileNames": true,
+    "strict": true,
+    "skipLibCheck": true
+  },
+  "include": [
+    "src/**/*.ts",
+    "prisma/**/*.ts",
+    "node_modules/prisma/prisma-client/index.d.ts",
+  ],
+  "exclude": [
+    "node_modules",
+    "json",
+    "prisma",
+    "sessions"
+  ]
+}

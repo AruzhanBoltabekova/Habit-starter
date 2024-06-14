@@ -1,0 +1,82 @@
+{
+  "errors":{
+    "ERROR/DOTENV": {
+      "message": "Error in .env file"
+    },
+    "NOT_FOUND/ROUTE": {
+      "statusCode": 404,
+      "message": "Route not found",
+      "details": "The requested route was not found on this server"
+    },
+    "NOT_FOUND/USER": {
+      "statusCode": 404,
+      "message": "User with id not found",
+      "details": "The requested user was not found on this server",
+      "data": {
+        "id": "User id"
+      }
+    },
+    "BAD_REQUEST/EMPTY_BODY": {
+      "statusCode": 503,
+      "message": "Empty body",
+      "details": "The request body is empty"
+    },
+    "BAD_REQUEST/INVALID_BODY": {
+      "statusCode": 503,
+      "message": "Missing fields in body",
+      "details": "The request body is missing required fields"
+    },
+    "NOT_FOUND/EMAIL": {
+      "statusCode": 404,
+      "message": "Email not found",
+      "details": "The requested email was not found on this server",
+      "data": {
+        "email": "Email"
+      }
+    },
+    "UNAUTHORIZED/INVALID_PASSWORD": {
+      "statusCode": 401,
+      "message": "Invalid password",
+      "details": "The password provided is incorrect"
+    },
+    "UNAUTHORIZED/INVALID_TOKEN": {
+      "statusCode": 401,
+      "message": "Invalid token",
+      "details": "The token provided is invalid"
+    },
+    "UNAUTHORIZED/MISSING_TOKEN": {
+      "statusCode": 401,
+      "message": "Missing token",
+      "details": "The token is missing from the request"
+    },
+    "UNAUTHORIZED/EXPIRED_TOKEN": {
+      "statusCode": 401,
+      "message": "Expired token",
+      "details": "The token provided has expired"
+    },
+    "UNAUTHORIZED": {
+      "statusCode": 401,
+      "message": "Missing authorization"
+    },
+    "SERVER_ERROR/AUTH": {
+      "statusCode": 500,
+      "message": "Error authenticating user",
+      "details": "An error occurred while authenticating the user"
+    },
+    "REGISTER/EMAIL_EXISTS": {
+      "statusCode": 409,
+      "message": "Email already exists",
+      "details": "The email provided already exists in the database"
+    },
+    "AUTH/NOSESSION": {
+      "statusCode": 403,
+      "message": "Error in session",
+      "details": "An error occurred while creating a session"
+    },
+    "AUTH/NO_HEADER": {
+      "statusCode": 403,
+      "message": "No auth header",
+      "details": "No authorization header was provided"
+    }
+  }
+}
