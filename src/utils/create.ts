@@ -1,6 +1,8 @@
 import { type NextFunction, type Request, type Response, Router } from 'express';
 import type { z } from 'zod';
 
+// Copy from external source
+
 export function createRouter(callback: (router: Router) => void) {
   const router = Router();
   callback(router);
