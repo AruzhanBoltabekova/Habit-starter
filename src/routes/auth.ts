@@ -45,18 +45,23 @@ export const loginHandler = createHandler(async (req, res, next) => {
 
   if (user) {
     const passMatch = compareSync(password, user.password);
-    !passMatch && next(_str_errors["UNAUTHORIZED/INVALID_PASSWORD"]);
-    const jwtToken = generateAccessToken({userId: user.id, email: user.email});
-    res.cookie('jwt', jwtToken, {domain: APP_DOMAIN, maxAge: ms('1 week')});
+    if (passMatch) {
+      const jwtToken = generateAccessToken({userId: user.id, email: user.email});
+      res.cookie('jwt', jwtToken, {domain: APP_DOMAIN, maxAge: ms('1 week')});
 
-    req.session.regenerate((err) => {
-      if (err) {next(err);}
-      req.session.user = user.id;
-      req.session.save(function (err) {
-        if (err) next(err)
-        res.status(200).send({jwt: jwtToken})
-      })
-    });
+      req.session.regenerate((err) => {
+        if (err) {next(err);}
+        req.session.user = user.id;
+        req.session.save(function (err) {
+          if (err) next(err)
+          res.status(200).send({jwt: jwtToken})
+        })
+      });
+    } else {
+      next(_str_errors["UNAUTHORIZED/INVALID_PASSWORD"]);
+    }
+  } else {
+    next(_str_errors["UNAUTHORIZED/INVALID_EMAIL"]);
   }
 });
 
