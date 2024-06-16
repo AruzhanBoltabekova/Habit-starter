@@ -103,7 +103,6 @@ async function getUserIdFromHabit(habitId: number) {
 }
 
 app.use("/api/habit", isAuthenticated, createRouter((router) => {
-  router.get("/deleteme", deleteMyUser);
   router.get("/", getHabitsHandler);
   router.get("/ids", getHabitIdsHandler);
   router.get("/categories", getGroupedHabits);
@@ -113,6 +112,22 @@ app.use("/api/habit", isAuthenticated, createRouter((router) => {
 }));
 
 app.use("/api/record", isAuthenticated, createRouter((router) => {
+  router.get("/", async (req, res, next) => {
+    try {
+      const result = await prisma.record.findMany({
+        where: {
+          Habit: {
+            User: {
+              id: req.session.user as any
+            },
+          },
+        },
+      });
+      res.json(result);
+    } catch (error) {
+      next(error);
+    }
+  });
   router.post("/:id", async (req, res, next) => {
     const habitId = parseInt(req.params.id);
     try {
