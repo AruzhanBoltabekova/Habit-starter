@@ -22,10 +22,10 @@ generator client {
 }
 
 // Generate schema diagram
-generator erd {
-  provider = "prisma-erd-generator"
-  output   = "./../dbschema.svg"
-}
+// generator erd {
+//   provider = "prisma-erd-generator"
+//   output   = "./../dbschema.svg"
+// }
 
 // Generate fake data
 // generator custom_generator {

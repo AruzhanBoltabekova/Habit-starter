@@ -7,10 +7,6 @@
     "dev": "bun --watch src/app.ts",
     "start": "bun src/app.ts",
     "db:generate": "prisma generate",
-    "db:migrate": "prisma migrate dev --name init",
-    "db:reset": "npx prisma migrate reset",
-    "db:migrate-generate": "npx prisma migrate dev --create-only",
-    "db:pull": "prisma db pull",
     "db:push": "prisma db push",
     "db:studio": "prisma studio"
   },
