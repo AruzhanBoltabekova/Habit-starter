@@ -1,0 +1,56 @@
+@tailwind base;
+@tailwind utilities;
+@tailwind components;
+
+@layer base {
+  html {
+    padding: 0 20px;
+  }
+  ul, ol {
+    list-style: none;
+    padding: 0;
+  }
+  input[type="text"], input[type="number"], input[type="email"], input[type="password"], textarea {
+    @apply px-3 py-2;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    width: 100%;
+  }
+  form {
+    label {
+      @apply block text-sm font-normal text-gray-500;
+      @apply mb-1;
+    }
+  }
+
+}
+
+@layer components {
+  .container {
+    @apply mx-auto py-2 md:py-4 max-w-[1200px] flex justify-between;
+  }
+  .h1 {
+    @apply text-xl font-extrabold text-black leading-none;
+  }
+  .h2 {
+    @apply text-lg font-bold text-black leading-none;
+  }
+  .p {
+    @apply text-base text-gray-700;
+  }
+  .btn {
+    @apply bg-blue-500 text-white font-bold py-1 px-5 rounded;
+  }
+  .fflexer {
+    @apply flex items-center justify-between;
+  }
+  .br {
+    @apply border border-gray-300 rounded px-4 py-4;
+  }
+  .btn-ghost {
+    @apply text-gray-400 font-medium hover:text-blue-600 text-sm;
+  }
+  .bcolor {
+    @apply border border-gray-300 rounded px-4 py-4;
+  }
+}
