@@ -29,31 +29,62 @@ According to the given diagram, the following relationships between the models c
 
 ## API Endpoints
 
-- / - reserved for the frontend   
-- /auth/login GET - login form
-- /auth/login POST, body: email, password. Returns JWT token
-- /auth/register GET - register form
-- /auth/register POST, body: email, password. Returns JWT token & creates a db user record
-- /habits GET - list of habits
-- /logout GET - logout. Clears the session and JWT token from the cookie
-
+- / - reserved for the frontend
 
 ```typescript
-app.use("/api/habit", isAuthenticated, createRouter((router) => {
-  router.get("/deleteme", deleteMyUser);
-  router.get("/", getHabitsHandler);
-  router.get("/ids", getHabitIdsHandler);
-  router.get("/categories", getGroupedHabits);
-  router.get("/:id", getSpecificHabitHandler);
-  router.post("/", createHabitHandler);
-  router.delete("/:id", deleteHabitHandler);
+// API documentation route
+app.get("/api", (req, res) => {res.status(200).json(DOCS)});
+
+// User login route
+// app.get("/login", login.get);
+app.post("/api/login", login.post);
+
+// User registration route
+// app.get("/register", register.get);
+app.post("/api/register", register.post);
+
+// User-authenticated routes
+// User logout route
+app.get("/api/logout", isAuth, logout);
+
+// Habit routes
+app.use("/api/habit", isAuth, createRouter((router) => {
+  // List of user's habits
+  router.get("/", habit.GET);
+  router.get("/ids", habit.GET_IDS);
+  router.get("/categories", habit.GET_CATEGORY);
+
+  // Create a new habit
+  router.put("/", habit.PUT);
+
+  // Specific habit routes
+  router.get("/:id", habit.GET_BY_ID);
+  router.delete("/:id", habit.DELETE_BY_ID);
+  router.patch("/:id", habit.PATCH_BY_ID);
+}));
+
+// Record routes
+app.use("/api/record", isAuth, createRouter((router) => {
+  // Get records
+  router.get("/", record.GET_ALL); // List of all user's records
+  router.get("/:id", record.GET_BY_ID); // Specific record
+  router.get("/habit/:id", record.GET_BY_HABIT_ID); // Specific habit's records
+
+  // Delete a record by ID
+  router.delete("/:id", record.DELETE_BY_ID); // Delete a record
+
+  // Post a record for a specific habit
+  router.put("/habit/:id", record.PUT_BY_HABIT_ID); // Create a record
 }));
 ```
 
-- /api/record/:id POST - create a record
-- /api/record/:id DELETE - delete a record
 
-- /api/ !! legacy docs
+## Build server && Run
+
+```shell
+bun build src/server.ts --target=bun --outfile=dist/server.js
+node dist/server.js
+```
 
 ## Steps to run the project
 
